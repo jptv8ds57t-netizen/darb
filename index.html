@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق درب - دربك أسهل ووصولك أيسر</title>
+    <style>
+        :root { --primary-color: #2ecc71; --secondary-color: #2c3e50; --background-color: #f8f9fa; --card-bg: #ffffff; --text-color: #333333; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--background-color); color: var(--text-color); padding-bottom: 60px; }
+        .navbar { background-color: var(--secondary-color); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .navbar .logo { font-size: 24px; font-weight: bold; color: var(--primary-color); }
+        .nav-menu { position: relative; display: inline-block; }
+        .dropdown-btn { background-color: var(--primary-color); color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; }
+        .dropdown-content { display: none; position: absolute; left: 0; background-color: white; min-width: 180px; box-shadow: 0px 8px 16px rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; z-index: 1001; }
+        .dropdown-content a { color: var(--secondary-color); padding: 12px 16px; text-decoration: none; display: block; font-weight: 500; text-align: right; }
+        .dropdown-content a:hover { background-color: #f1f1f1; color: var(--primary-color); }
+        .nav-menu:hover .dropdown-content { display: block; }
+        .hero { background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8)), url('https://unsplash.com') no-repeat center center/cover; color: white; text-align: center; padding: 50px 20px; }
+        .hero h1 { font-size: 42px; margin-bottom: 15px; color: var(--primary-color); }
+        .hero p { font-size: 19px; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .grid-title { font-size: 24px; margin-bottom: 25px; color: var(--secondary-color); border-right: 5px solid var(--primary-color); padding-right: 15px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background-color: var(--card-bg); border-radius: 15px; padding: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; border: 1px solid #eaeaea; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(46, 204, 113, 0.18); border-color: var(--primary-color); }
+        .card .icon { font-size: 50px; margin-bottom: 15px; }
+        .card h3 { font-size: 22px; color: var(--secondary-color); margin-bottom: 10px; }
+        .card p { color: #666; font-size: 15px; line-height: 1.4; }
+        .sub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-top: 20px; }
+        .inner-place-card { background: #f9f9f9; border: 1px solid #e5e5e5; border-radius: 10px; padding: 20px; text-align: center; text-decoration: none; color: inherit; transition: all 0.2s; display: block; }
+        .inner-place-card:hover { background: #eefdf4; border-color: var(--primary-color); transform: scale(1.02); }
+        .inner-place-card h4 { color: var(--secondary-color); margin-bottom: 5px; font-size: 18px; }
+        .inner-place-card span { font-size: 13px; color: #2ecc71; font-weight: bold; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background-color: white; padding: 30px; border-radius: 20px; max-width: 750px; width: 100%; position: relative; box-shadow: 0 5px 30px rgba(0,0,0,0.3); animation: fadeIn 0.3s ease; }
+        .close-btn { position: absolute; top: 15px; left: 20px; font-size: 28px; cursor: pointer; color: #aaa; }
+        .close-btn:hover { color: #333; }
+        @keyframes fadeIn { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .team-list { list-style: none; margin-top: 15px; }
+        .team-list li { padding: 12px; background: #f9f9f9; margin-bottom: 8px; border-radius: 8px; font-weight: bold; border-right: 4px solid var(--primary-color); font-size: 16px; text-align: right; }
+        iframe { width: 100%; height: 380px; border: 0; border-radius: 12px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">دَرْب 🎯</div>
+        <nav class="nav-menu">
+            <button class="dropdown-btn">الدعم والخدمات 🔽</button>
+            <div class="dropdown-content">
+                <a href="mailto:hh_1492mm@://icloud.com">تواصل معنا</a>
+                <a href="#" onclick="openModal('complaints-modal'); return false;">الشكاوى والاقتراحات</a>
+            </div>
+        </nav>
+    </header>
+    <section class="hero">
+        <h1>تطبيق دَرْب</h1>
+        <p>دربك أسهل، ووصولك أيسر. منصة مجتمعية مخصصة لمساعدة كبار السن وذوي الإعاقة في العثور على المرافق المهيأة والوصول إليها بأمان ويقين.</p>
+    </section>
+    <main class="container">
+        <h2 class="grid-title">أقسام وخدمات التطبيق الرئيسية</h2>
+        <div class="services-grid">
+            <div class="card" onclick="openModal('hospitals-group-modal')">
+                <div class="icon">🏥</div>
+                <h3>المستشفيات والعيادات</h3>
+                <p>اضغط لاستعراض المستشفيات والمنشآت الطبية المهيأة المتاحة.</p>
+            </div>
+            <div class="card" onclick="openModal('parks-group-modal')">
+                <div class="icon">🌳</div>
+                <h3>الحدائق والأماكن العامة</h3>
+                <p>اضغط لاستعراض المتنزهات والحدائق الصديقة لكبار السن.</p>
+            </div>
+            <div class="card" onclick="openModal('malls-group-modal')">
+                <div class="icon">🛍️</div>
+                <h3>المراكز والأسواق</h3>
+                <p>اضغط لمشاهدة المجمعات والمولات التجارية المجهزة بالكامل.</p>
+            </div>
+            <div class="card" onclick="openModal('cafes-group-modal')">
+                <div class="icon">☕</div>
+                <h3>المطاعم والمقاهي</h3>
+                <p>اضغط لاستكشاف المقاهي والمطاعم الميسرة هندسياً للوصول.</p>
+            </div>
+            <div class="card" onclick="openModal('map-modal')">
+                <div class="icon">🇸🇦</div>
+                <h3>الخريطة التفاعلية</h3>
+                <p>اضغط لفتح الخريطة الجغرافية الرسمية الحية للمملكة العربية السعودية.</p>
+            </div>
+            <div class="card" onclick="openModal('team-modal')">
+                <div class="icon">👥</div>
+                <h3>القائمون على المشروع</h3>
+                <p>هاشم الشهري، ماجد السبيعي، ممدوح العتيبي، سعد الشهراني، يحيى الزهراني</p>
+            </div>
+        </div>
+    </main>
+    <div id="hospitals-group-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('hospitals-group-modal')">&times;</span>
+            <h2>🏥 المستشفيات والعيادات المعتمدة</h2>
+            <p style="color: #666; text-align: right; margin-bottom: 10px;">اختر المنشأة الطبية لفتح موقعها مباشرة على تطبيق الخرائط:</p>
+            <div class="sub-grid">
+                <a href="https://google.com" target="_blank" class="inner-place-card">
+                    <h4>مستشفى الملك خالد التخصصي</h4>
+                    <p>مسارات وممرات كراسي متحركة نموذجية</p>
+                    <span>📍 افتح في تطبيق الخرائط</span>
+                </a>
+                <a href="https://google.com" target="_blank" class="inner-place-card">
+                    <h4>مدينة الملك سعود الطبية</h4>
+                    <p>تهيئة وصول شاملة ومواقف مخصصة</p>
+                    <span>📍 افتح في تطبيق الخرائط</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="parks-group-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('parks-group-modal')">&times;</span>
+            <h2>🌳 الحدائق والأماكن العامة المهيأة</h2>
+            <p style="color: #666; text-align: right; margin-bottom: 10px;">اختر الموقع الترفيهي لفتح اتجاهات الحركة:</p>
+            <div class="sub-grid">
+                <a href="https://google.com" target="_blank" class="inner-place-card">
+                    <h4>حديقة الملك عبدالله</h4>
+                    <p>مسارات منبسطة ومرافق ميسرة لكبار السن</p>
+                    <span>📍 افتح في تطبيق الخرائط</span>
+                </a>
+                <a href="https://google.com" target="_blank" class="inner-place-card">
+                    <h4>منتزه العليا</h4>
+                    <p>مدخل مستوٍ خالٍ من العوائق الهندسية</p>
+                    <span>📍 افتح في تطبيق الخرائط</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="malls-group-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('malls-group-modal')">&times;</span>
+            <h2>🛍️ المراكز والأسواق التجارية المجهزة</h2>
+            <p style="color: #666; text-align: right; margin-bottom: 10px;">اختر المركز التجاري لتتبع الوصول:</p>
+            <div class="sub-grid">
+                <a href="https://google.com" target="_blank" class="inner-place-card">
+                    <h4>السلام مول</h4>
+                    <p>بوابات واسعة وتوافر كراسي متحركة مجانية</p>
+                    <span>📍 افتح في تطبيق الخرائط</span>
+                </a>
+                <a href="https://google.com" target="_blank" class="inner-place-card">
+                    <h4>رياض بارك</h4>
+                    <p>مطابقة لأعلى معايير الوصول والمنحدرات</p>
+                    <span>📍 افتح في تطبيق الخرائط</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="cafes-group-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('cafes-group-modal')">&times;</span>
+            <h2>☕ المطاعم والمقاهي صديقة الوصول</h2>
+            <p style="color: #666; text-align: right; margin-bottom: 10px;">اختر الوجهة للذهاب فوراً للموقع:</p>
+            <div class="sub-grid">
+                <a href="https://google.com" target="_blank" class="inner-place-card">
+                    <h4>مطعم البيك</h4>
+                    <p>مداخل مستوية تماماً بدون عتبات مرتفعة</p>
+                    <span>📍 افتح في تطبيق الخرائط</span>
+                </a>
+                <a href="https://google.com" target="_blank" class="inner-place-card">
+                    <h4>مقهى دريب</h4>
+                    <p>أماكن جلوس مريحة وممرات حركة فسيحة</p>
+                    <span>📍 افتح في تطبيق الخرائط</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="map-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('map-modal')">&times;</span>
+            <h2>🇸🇦 خريطة المملكة العربية السعودية التفاعلية</h2>
+            <iframe src="https://google.com"></iframe>
+        </div>
+    </div>
+    <div id="team-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('team-modal')">&times;</span>
+            <h2>👥 القائمون على مشروع درب</h2>
+            <p style="margin-bottom: 15px; color: #666; font-weight: bold; text-align: right;">فريق العمل والمهندسين القائمين على المبادرة المعتمدة:</p>
+            <ul class="team-list">
+                <li>هاشم الشهري</li><li>ماجد السبيعي</li><li>ممدوح العتيبي</li><li>سعد الشهراني</li><li>يحيى الزهراني</li>
+            </ul>
+        </div>
+    </div>
+    <div id="complaints-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('complaints-modal')">&times;</span>
+            <h2>📩 بوابة الشكاوى والاقتراحات</h2>
+            <p style="margin-bottom: 15px; color: #666; text-align: right;">نسعد باستقبال ملاحظاتكم لتطوير التطبيق باستمرار.</p>
+            <p style="text-align: right;">لتقديم بلاغ فوري عن خطأ بالبيانات، يرجى المراسلة المباشرة للبريد الإلكتروني المعتمد للمشروع: </p>
+            <br>
+            <p style="text-align: center;"><b><a href="mailto:hh_1492mm@://icloud.com" style="color: var(--primary-color); font-size: 20px; text-decoration: none;">hh_1492mm@icloud.com</a></b></p>
+        </div>
+    </div>
+    <script>
+        function openModal(modalId) { var modal = document.getElementById(modalId); if (modal) { modal.style.display = 'flex'; } }
+        function closeModal(modalId) { var modal = document.getElementById(modalId); if (modal) { modal.style.display = 'none'; } }
+        window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = 'none'; } }
+    </script>
+</body>
+</html>
